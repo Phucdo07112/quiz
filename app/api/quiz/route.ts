@@ -24,3 +24,20 @@ export async function GET(req: NextRequest) {
         
     }
 }
+
+export async function POST(req: NextRequest) {
+    try {
+        const data = await req.json();
+        //todo --- we need to check the user have any shop or not
+        const questions = await db.questions.create({
+            data
+        });
+
+        return NextResponse.json(questions);
+        
+    } catch (error) {
+        console.log('load user error', error);
+        return new NextResponse("Interval Error", {status: 500})
+        
+    }
+}
