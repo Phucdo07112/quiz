@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  imageUrl String @db.String
+  externalUserId String @unique // id người dùng bên ngoài (cụ thể là clerk)-dùng nó để so sánh id bên clerk
+  bio String?
+  scores Int @default(0) // điểm
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+}
+
+model Questions {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  question String
+  answers String[]
+  correctAnswer String
+  time Int @default(60)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
